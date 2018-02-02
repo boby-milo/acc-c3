@@ -47,20 +47,17 @@ def count_tweets(file_path, word_list):
 	word_count = count_words(word_list, tweets_json, word_count)
 	return word_count
 
-# def count_all_tweets(dir_path):
-# 	word_list = ["han", "hon", "den", "det", "denna", "denne", "hen"]
-# 	word_count = dict(zip(word_list, [0] * len(word_list))) #initialize
-#
-# 	file_names = get_filenames(dir_path)
-# 	print file_names
-#
-# 	for f in file_names:
-# 		file_path = dir_path+'/'+f
-# 		tweets_json = load_tweets_json(file_path)
-# 		word_count = count_words(word_list, tweets_json, word_count)
-#
-# 	write_json(word_count)
-# 	return "Tweets counted!"
+def count_all_tweets(dir_path, word_list):
+	word_count = dict(zip(word_list, [0] * len(word_list))) #initialize
+	file_names = get_filenames(dir_path)
+	# print file_names
+
+	for f in file_names:
+		file_path = dir_path+'/'+f
+		tweets_json = load_tweets_json(file_path)
+		word_count = count_words(word_list, tweets_json, word_count)
+	# write_json(word_count)
+	return json.dumps(word_count)
 
 if __name__ == '__main__':
 	word_list = ["han", "hon", "den", "det", "denna", "denne", "hen"]
@@ -69,3 +66,4 @@ if __name__ == '__main__':
 	file_name = get_filenames(dir_path)[0]
 	file_path = join(dir_path,file_name)
 	count_tweets(file_path, word_list)
+	print count_all_tweets(dir_path, word_list)
