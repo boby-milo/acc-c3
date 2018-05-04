@@ -1,9 +1,9 @@
 from celery import Celery
 from millo import *
 
-app = Celery('proj',
-                broker = 'amqp://user1:pwd@localhost:5672/vhost1',
-                backend = 'amqp://user1:pwd@localhost:5672/vhost1')
+app = Celery('tasks',
+                broker = 'amqp://localhost',
+                backend = 'amqp://localhost')
                 # include = ['tasks'])
 
 @app.task

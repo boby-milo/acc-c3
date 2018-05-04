@@ -17,10 +17,5 @@ def count_tweets_flask():
         file_path = join(dir_path,file_name)
         count_dict[i] = count_tweets_task.delay(file_path, word_list)
 
-
-
-
-
-
 if __name__ == '__main__':
      app.run(host='0.0.0.0')
