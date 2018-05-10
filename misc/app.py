@@ -7,6 +7,7 @@ from os.path import join
 word_list = ["han", "hon", "den", "det", "denna", "denne", "hen"]
 # dir_path = '/mnt/tweets'
 # file_names = get_filenames(dir_path)
+dir_path = '../data'
 
 app = Flask(__name__)
 
@@ -16,11 +17,12 @@ def index():
 
 @app.route('/tweets', methods=['GET'])
 def tweets():
-    #create a counting task
-#     for i, file_name in enumerate(file_names):
-#         file_path = join(dir_path,file_name)
-#         count_dict[i] = count_tweets_task.delay(file_path, word_list)
-    return render_template('tweets.html')
+    render_template('tweets.html')
+    html_path = './templates/bars.html'
+
+    total_count = count_all_tweets(dir_path, word_list)
+    visualize_tweets(total_count, html_path)
+    return render_template('bars.html')
 
 if __name__ == '__main__':
      app.config['TEMPLATES_AUTO_RELOAD'] = True
