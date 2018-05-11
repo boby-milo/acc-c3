@@ -3,7 +3,7 @@ from flask import Flask, render_template
 from time import sleep
 from tweets import *
 
-DIR_PATH = '../data'
+DIR_PATH = '/mnt/tweets'
 
 def make_celery(app):
     celery_app = Celery(
@@ -60,7 +60,7 @@ def tweets():
     word_count_list = len(word_count_task) * [0]
     counting_done = False
     counter = 0
-    while not counting_done and counter<10:
+    while not counting_done:
         counter += 1
         counting_done = True
         for ii, wct in enumerate(word_count_task):
