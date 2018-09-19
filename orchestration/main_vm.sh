@@ -12,6 +12,7 @@ sudo apt-get upgrade -y
 echo "Installing pip..."
 sudo apt-get install -y python-pip
 sudo -H pip install --upgrade pip
+sudo -H pip install numpy
 
 echo "Installing rabbitmq..."
 sudo apt-get install -y rabbitmq-server
