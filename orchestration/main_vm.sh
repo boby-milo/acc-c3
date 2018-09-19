@@ -31,9 +31,12 @@ cd /home/ubuntu
 sudo git clone https://github.com/millovanovic/acc-c3.git
 cd /home/ubuntu/acc-c3/
 sudo git checkout django
-sudo python manage.py migrate
+
+echo "Starting celery..."
+sudo screen -S celeryserver -d -m bash -c 'celery worker -A milotweet --autoscale=8,1'
 
 echo "Starting django..."
+sudo python manage.py migrate
 sudo screen -S djangoserver -d -m bash -c 'python manage.py runserver 0:8000'
 
 echo "Initialization complete!"

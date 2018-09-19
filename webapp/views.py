@@ -28,7 +28,7 @@ def count_tweets(request):
         if form.is_valid():
             files_number = form.cleaned_data.get('total_file')
             word_count_task = []
-            path = "./webapp/data" #/mnt/tweet_data/tweets
+            path = "/mnt/tweet_data/tweets" #/mnt/tweet_data/tweets
             file_list = [f for f in listdir(path) if isfile(join(path, f))]
             file_list = np.random.choice(file_list, files_number, replace=False)
             for file in file_list:
