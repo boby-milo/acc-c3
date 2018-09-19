@@ -3,7 +3,7 @@ import os
 import sys
 
 if __name__ == "__main__":
-    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "millotweet.settings")
+    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "milotweet.settings")
     try:
         from django.core.management import execute_from_command_line
     except ImportError:

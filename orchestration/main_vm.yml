@@ -111,12 +111,12 @@ resources:
       floatingip_id: { get_resource: floating_ip }
       port_id: { get_resource: main_port }
 
-  # #volumes
-  # milo_volume:
-  #   type: OS::Cinder::VolumeAttachment
-  #   properties:
-  #     volume_id: 1491d7e5-09a9-4a55-a6ef-2e4f338d022e
-  #     instance_uuid: { get_resource: main_server }
+  #volumes
+  milo_data:
+    type: OS::Cinder::VolumeAttachment
+    properties:
+      volume_id: a7206eee-2e27-4c34-a61c-726f131e0944
+      instance_uuid: { get_resource: main_server }
 
 
 # Outputs

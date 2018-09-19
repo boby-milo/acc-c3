@@ -2,10 +2,9 @@
 
 echo "I'm alive!"
 
-mkdir ~/millo
-sudo mkdir /mnt/tweets
-sudo mount /dev/vdb1 /mnt/tweets
-sudo chown ubuntu:ubuntu /mnt/tweets
+sudo mkdir /mnt/tweet_data
+sudo mount /dev/vdb1 /mnt/tweet_data
+sudo chown ubuntu:ubuntu /mnt/tweet_data
 
 sudo apt-get update -y
 sudo apt-get upgrade -y
