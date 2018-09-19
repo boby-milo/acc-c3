@@ -32,9 +32,9 @@ cd /home/ubuntu
 sudo git clone https://github.com/millovanovic/acc-c3.git
 cd /home/ubuntu/acc-c3/
 sudo git checkout django
-python manage.py migrate
-# python manage.py runserver
-# echo "Running django..."
+sudo python manage.py migrate
 
+echo "Starting django..."
+sudo screen -S djangoserver -d -m bash -c 'python manage.py runserver 0:8000'
 
 echo "Initialization complete!"
