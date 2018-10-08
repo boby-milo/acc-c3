@@ -36,6 +36,12 @@ parameters:
     description: Public network with floating IP addresses.
     default: Public External IPv4 Network #Try network ID if this fails.
 
+  slaves_number:
+    type: number
+    label: Number of slaves
+    description: Number of slaves for counting pronouns. 
+    default: 8
+
 # Resources
 resources:
 
@@ -58,7 +64,8 @@ resources:
     properties:
       network_id: { get_resource: main_network }
       cidr: 10.10.10.0/24
-      dns_nameservers: #There is a problem here with DNSs, VMs sometimes see internet, but not intranet names (so you must reffer to local things via IDs), or they see local names but do not know what e.g., www.google.com is, so you cannot update the packages or install anything from repos.
+      dns_nameservers: 
+      #There is a problem here with DNSs, VMs sometimes see internet, but not intranet names (so you must reffer to local things via IDs), or they see local names but do not know what e.g., www.google.com is, so you cannot update the packages or install anything from repos.
         - 130.238.164.6
         - 130.238.4.133
         # - 130.238.7.10
@@ -87,6 +94,13 @@ resources:
         - default
         - { get_resource: main_security_group }
 
+  #private key
+  main_key:
+    type: OS::Nova::KeyPair
+    properties: 
+      save_private_key: true
+      name: main_key
+
   #servers
   main_server:
     type: OS::Nova::Server
@@ -97,7 +111,12 @@ resources:
       key_name: { get_param: key }
       networks:
         - port: { get_resource: main_port }
-      user_data: {get_file: main_vm.sh}
+      user_data: 
+        str_replace:
+          template: {get_file: main_vm.sh}
+          params:
+            PRIVATE_KEY: {get_attr: [main_key, private_key]}
+            PUBLIC_KEY: {get_attr: [main_key, public_key]}
       user_data_format: RAW
 
   floating_ip:
@@ -112,12 +131,31 @@ resources:
       port_id: { get_resource: main_port }
 
   #volumes
-  milo_data:
+  milo_volume:
+    type: OS::Cinder::Volume
+    properties:
+      snapshot_id: 9d0cdfbe-7efb-479e-8979-9c0164facd25
+      
+  attach_milo_volume:
     type: OS::Cinder::VolumeAttachment
     properties:
-      volume_id: a7206eee-2e27-4c34-a61c-726f131e0944
+      volume_id: {get_resource: milo_volume}  
       instance_uuid: { get_resource: main_server }
 
+  #slaves
+  slaves:
+    type: OS::Heat::ResourceGroup
+    properties:
+      count: {get_param: slaves_number}
+      resource_def:
+        type: slave_vm.yaml
+        properties:
+          private_network: {get_resource: main_network}
+          name: milo_slave%index%
+          key: {get_resource: main_key}
+          master_ip: {
+            get_attr: [main_server, addresses, get_attr: [main_network, name], 0, addr]
+          }
 
 # Outputs
 outputs:
